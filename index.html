@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ServersCx</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(-45deg, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff, #e0baff);
+      background-size: 600% 600%;
+      animation: gradientBG 20s ease infinite;
+      color: #111;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    #inicio {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    #inicio h1 { font-size: 36px; margin-bottom: 15px; color: #111; }
+    #inicio p { font-size: 18px; margin-bottom: 20px; color: #222; }
+    .btn {
+      padding: 10px 18px;
+      background: #00aaff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      min-width: 100px;
+      margin: 0 5px;
+    }
+    .btn:hover { background: #0088cc; }
+    .fila-botones { display: flex; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+
+    .contenido { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
+    h2 { text-align: center; margin-bottom: 20px; }
+    .server {
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .server-info { flex: 1; margin-left: 10px; }
+    .server-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+    .players { font-size: 14px; margin-top: 5px; }
+    .unirse-btn { background: #28a745; color: #fff; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+    .unirse-btn:hover { background: #218838; }
+
+    .volver { display: block; text-align: center; margin-top: 20px; cursor: pointer; color: #555; font-weight: bold; }
+    .volver:hover { color: #000; }
+
+    .contenido-scroll { max-height: 70vh; overflow-y: auto; padding-right: 10px; }
+  </style>
+</head>
+<body>
+
+  <div id="inicio">
+    <h1>ServersCx</h1>
+    <p>¿Qué servidores te interesan?</p>
+    <div class="fila-botones">
+      <button class="btn" onclick="mostrar('minecraft')">Minecraft</button>
+      <button class="btn" onclick="mostrar('roblox')">Roblox</button>
+    </div>
+  </div>
+
+  <div id="minecraft" class="contenido">
+    <h2>🔸 Servidores de Minecraft</h2>
+    <div class="contenido-scroll" id="minecraft-list"></div>
+    <span class="volver" onclick="volver()">⬅ Volver al inicio</span>
+  </div>
+
+  <div id="roblox" class="contenido">
+    <h2>🔹 Servidores Privados de Roblox</h2>
+    <div class="contenido-scroll" id="roblox-list"></div>
+    <span class="volver" onclick="volver()">⬅ Volver al inicio</span>
+  </div>
+
+  <script>
+    function mostrar(seccion) {
+      document.getElementById("inicio").style.display = "none";
+      document.getElementById(seccion).style.display = "block";
+    }
+    function volver() {
+      document.getElementById("inicio").style.display = "flex";
+      document.getElementById("minecraft").style.display = "none";
+      document.getElementById("roblox").style.display = "none";
+    }
+
+    // Servidores de Minecraft LATAM (sin "hispano" ni "latam")
+    const minecraftServers = [
+      { name: "SurvivalZone", players: 120, maxPlayers: 500, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "SkyblockWorld", players: 85, maxPlayers: 300, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "PixelMC", players: 200, maxPlayers: 400, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "CraftLandia", players: 350, maxPlayers: 500, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "MundoMC", players: 180, maxPlayers: 300, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "EspaMC", players: 220, maxPlayers: 400, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "MCEspaña", players: 150, maxPlayers: 300, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "MineLand", players: 275, maxPlayers: 500, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "CraftZone", players: 190, maxPlayers: 350, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "SuperMC", players: 230, maxPlayers: 400, img: "https://via.placeholder.com/60", link: "#" }
+    ];
+
+    const minecraftList = document.getElementById("minecraft-list");
+    minecraftServers.forEach(server => {
+      const div = document.createElement("div");
+      div.classList.add("server");
+      div.innerHTML = `
+        <img src="${server.img}" alt="${server.name}" class="server-img">
+        <div class="server-info">
+          <p><strong>${server.name}</strong></p>
+          <p class="players">Jugadores: ${server.players}/${server.maxPlayers}</p>
+        </div>
+        <a href="${server.link}" class="unirse-btn">Unirse</a>
+      `;
+      minecraftList.appendChild(div);
+    });
+
+    // Servidores de Roblox
+    const robloxGames = [
+      { name: "Steal a Brainrot", players: 45, maxPlayers: 100, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Blox Fruits", players: 300, maxPlayers: 500, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Pet Simulator X", players: 120, maxPlayers: 250, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Doors", players: 80, maxPlayers: 200, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Tower of Hell", players: 200, maxPlayers: 500, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Arsenal", players: 150, maxPlayers: 300, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Shindo Life", players: 220, maxPlayers: 400, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Murder Mystery 2", players: 90, maxPlayers: 200, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Anime Fighting Simulator", players: 180, maxPlayers: 350, img: "https://via.placeholder.com/60", link: "#" },
+      { name: "Bee Swarm Simulator", players: 140, maxPlayers: 300, img: "https://via.placeholder.com/60", link: "#" }
+    ];
+
+    const robloxList = document.getElementById("roblox-list");
+    robloxGames.forEach(game => {
+      const div = document.createElement("div");
+      div.classList.add("server");
+      div.innerHTML = `
+        <img src="${game.img}" alt="${game.name}" class="server-img">
+        <div class="server-info">
+          <p><strong>${game.name}</strong></p>
+          <p class="players">Jugadores: ${game.players}/${game.maxPlayers}</p>
+        </div>
+        <a href="${game.link}" class="unirse-btn">Unirse</a>
+      `;
+      robloxList.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
