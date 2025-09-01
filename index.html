@@ -157,6 +157,43 @@
       `;
       robloxList.appendChild(div);
     });
+
+    // --- Contador dinámico de jugadores para Minecraft ---
+    async function actualizarContador() {
+      const serversDiv = document.querySelectorAll("#minecraft-list .server");
+
+      // Reemplaza estas IPs con tus servidores reales
+      const minecraftServersIPs = [
+        "IP_DEL_SERVIDOR_1",
+        "IP_DEL_SERVIDOR_2",
+        "IP_DEL_SERVIDOR_3",
+        "IP_DEL_SERVIDOR_4",
+        "IP_DEL_SERVIDOR_5",
+        "IP_DEL_SERVIDOR_6",
+        "IP_DEL_SERVIDOR_7",
+        "IP_DEL_SERVIDOR_8",
+        "IP_DEL_SERVIDOR_9",
+        "IP_DEL_SERVIDOR_10"
+      ];
+
+      serversDiv.forEach(async (serverDiv, index) => {
+        try {
+          const res = await fetch(`https://api.mcsrvstat.us/2/${minecraftServersIPs[index]}`);
+          const data = await res.json();
+          const players = data.players && data.players.online ? data.players.online : 0;
+          const maxPlayers = data.players && data.players.max ? data.players.max : "N/A";
+          serverDiv.querySelector(".players").innerText = `Jugadores: ${players}/${maxPlayers}`;
+        } catch (err) {
+          console.log("Error al obtener jugadores:", err);
+          serverDiv.querySelector(".players").innerText = `Jugadores: N/A`;
+        }
+      });
+    }
+
+    // Actualiza cada 15 segundos
+    actualizarContador();
+    setInterval(actualizarContador, 15000);
+
   </script>
 
 </body>
